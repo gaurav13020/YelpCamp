@@ -1,0 +1,64 @@
+const mongoose = require('mongoose');
+const Campground = require('../models/campground');
+const cities = require('./cities');
+const {descriptors, places} = require('./seedHelpers');
+
+mongoose.connect('mongodb+srv://yelpCampTest:aEsttF1OR8LHUEOD@harsh-cluster-0.mss6cit.mongodb.net/?retryWrites=true&w=majority&appName=Harsh-Cluster-0')
+.then(()=>{
+    console.log("Mongo Connection Open");
+})
+.catch((err)=>{
+    console.log("Oh No Mongo error");
+    console.log(err);
+})
+
+
+//function to randomly select a descriptor and place from the array
+
+const sample = (arr)=>{
+    return arr[Math.floor(Math.random()*arr.length)];
+}
+//create a function which deletes all the old entries and creates new one
+
+const seedDB = async() =>{
+    await Campground.deleteMany({});
+    
+    for(let i=0;i<200;i++){
+        const random1000 = Math.floor(Math.random()*1000);
+        const price = Math.floor(Math.random()*40)+10;
+        const camp = new Campground({
+            author:'6895623ff65871c97bdd37d2',
+            location:`${cities[random1000].city}, ${cities[random1000].state}`,
+            title: `${sample(descriptors)} ${sample(places)}`,
+            geometry:{
+                type: "Point",
+                coordinates: [
+                    cities[random1000].longitude,
+                    cities[random1000].latitude
+                ]
+            },
+            image: [
+                {
+                  url: 'https://res.cloudinary.com/dyr7igtpp/image/upload/v1754452250/YelpCamp/kpkgpccgevuqckusos55.jpg',
+                  filename: 'YelpCamp/kpkgpccgevuqckusos55'
+                },
+                {
+                  url: 'https://res.cloudinary.com/dyr7igtpp/image/upload/v1754499926/YelpCamp/y31fscgwixgy0u7e64xz.jpg',
+                  filename: 'YelpCamp/y31fscgwixgy0u7e64xz'
+                },
+                {
+                  url: 'https://res.cloudinary.com/dyr7igtpp/image/upload/v1754499926/YelpCamp/rihevbghwxvm9oge0ofm.jpg',
+                  filename: 'YelpCamp/rihevbghwxvm9oge0ofm'
+                }
+              ],
+            price: price,
+            description: " Pitch your tent or park your RV at this tranquil riverside campground, where the gentle rush of the water provides a soothing soundtrack to your outdoor adventure. Enjoy direct access to fishing and kayaking, with well-maintained, spacious sites that offer a blend of shade and sun. Fire rings and picnic tables are provided for enjoying meals outdoors, and you'll find composting toilets and potable water within easy walking distance. The camp store provides necessities and firewood, and you'll be close enough to enjoy nearby hiking trails." 
+        });
+
+        await camp.save();
+    }
+}
+
+seedDB().then(()=>{
+    mongoose.connection.close();
+});
