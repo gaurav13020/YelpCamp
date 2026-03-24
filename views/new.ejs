@@ -1,0 +1,66 @@
+<% layout('layout/boilerplate') %>
+<link rel="stylesheet" href="/stylesheets/new.css">
+
+
+<div class="row">
+
+    <div class="col-md-6 offset-md-3">
+        <div class="card shadow"> 
+            <div class="card-body">
+                <h2 class="card-title text-center">Add New Campground</h2>
+    <form action="/campground" method="POST" novalidate class="validatedForm" enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <label class="form-label" for="title">Add Camp Name</label>
+            <input class="form-control" type="text" id="title" name="title" required>
+            <div class="valid-feedback">
+                Looks Good!
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="location">Enter Location</label>
+            <input class="form-control" type="text" name="location" id="location" required>
+            <div class="valid-feedback">
+                Looks Good!
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="description">Enter Description</label>
+            <input class="form-control" type="text" name="description" id="description" required>
+            <div class="valid-feedback">
+                Looks Good!
+            </div>
+        </div>
+
+        <div class="my-3">
+            <label for="image" class="form-label">Upload Images</label>
+            <input class="form-control" type="file" name="image" id="image" multiple>
+        </div>
+        <!-- <input type="file" id="image" name="image" multiple> -->
+        <!-- <div class="mb-3">
+            <label class="form-label" for="image">Enter Image URL</label>
+            <input class="form-control" type="text" name="image" id="image" required>
+            <div class="valid-feedback">
+                Looks Good!
+            </div>
+        </div> -->
+
+        <div class="mb-3">
+            <label class="form-label" for="price">Enter price</label>
+            <input class="form-control" type="number" name="price" id="price" required>
+            <div class="valid-feedback">
+                Looks Good!
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <button class="btn btn-success">Add Campground</button>
+        </div>
+
+    </form>
+</div>
+</div>
+</div>
+</div>

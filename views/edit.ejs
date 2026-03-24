@@ -1,0 +1,121 @@
+<% layout('layout/boilerplate') %>
+<link rel="stylesheet" href="/stylesheets/edit.css">
+
+
+    <div class="row mb-5">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow"> 
+                <div class="card-body">
+                    <h2 class="card-title text-center">Update Campground</h2>
+                    <form action="/campground/<%=camp._id%>/?_method=PATCH" method="POST" novalidate class="validatedForm"
+        enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <label class="form-label" for="title">Add Camp Name</label>
+            <input class="form-control" type="text" id="title" name="title" value="<%=camp.title %>" required>
+            <div class="valid-feedback">
+                Looks Good!
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="location">Enter Location</label>
+            <input class="form-control" type="text" name="location" id="location" value="<%=camp.location %>" required>
+            <div class="valid-feedback">
+                Looks Good!
+            </div>
+        </div>
+
+        <div class=" mb-3">
+            <label class="form-label" for="description">Enter Description</label>
+            <input class="form-control" type="text" name="description" id="description" value="<%=camp.description %>"
+                required>
+            <div class="valid-feedback">
+                Looks Good!
+            </div>
+        </div>
+
+        <div class="my-3">
+            <label for="image" class="form-label">Upload Images</label>
+            <input class="form-control" type="file" name="image" id="image" multiple>
+        </div>
+
+        <div class="mb-3">
+            <label for="deleteImageCarousel" class="form-label">Delete Existing Images</label>
+        <div id="deleteImageCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+            <div class="carousel-inner text-center">
+                <% camp.image.forEach((img, i)=> { %>
+                    <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+                        <img src="<%= img.url %>" class="d-block mx-auto img-thumbnail mb-3" style="max-height: 350px;"
+                            alt="Image <%= i + 1 %>">
+
+                        <div class="form-check d-flex justify-content-center align-items-center">
+                            <input class="form-check-input me-2" type="checkbox" name="deleteImages[]"
+                                id="image-<%= i %>" value="<%= img.filename %>">
+                            <label class="form-check-label" for="image-<%= i %>">
+                                Delete this image
+                            </label>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+
+            <% if (camp.image.length> 1) { %>
+                <button class="carousel-control-prev" type="button" data-bs-target="#deleteImageCarousel"
+                    data-bs-slide="prev" style="background: rgba(0,0,0,0.3);">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#deleteImageCarousel"
+                    data-bs-slide="next" style="background: rgba(0,0,0,0.3);">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+                <% } %>
+        </div>
+    </div>
+
+
+        <div class="mb-3">
+            <label class="form-label" for="price">Enter price</label>
+            <input class="form-control" type="number" name="price" id="price" value="<%=camp.price%>" required>
+            <div class="valid-feedback">
+                Looks Good!
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <button class="btn btn-success">Update Campground</button>
+        </div>
+    </form>
+
+    <form action="/campground/<%=camp._id%>">
+        <div class="mb-3">
+            <button class="btn btn-danger">Go Back</button>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.validatedForm')
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
